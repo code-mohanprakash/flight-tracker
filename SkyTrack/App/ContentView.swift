@@ -24,6 +24,12 @@ struct ContentView: View {
                 }
                 .tag(AppTab.search)
 
+            TravelStatsView(statsService: container.travelStatsService)
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
+                }
+                .tag(AppTab.stats)
+
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
@@ -38,6 +44,7 @@ enum AppTab: Hashable {
     case map
     case myFlights
     case search
+    case stats
     case settings
 }
 

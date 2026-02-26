@@ -52,6 +52,17 @@ final class DependencyContainer {
     lazy var liveActivityManager: LiveActivityManager = LiveActivityManager()
     #endif
 
+    // MARK: - Services (Phase 3)
+
+    lazy var sharingService: SharingService = SharingService()
+
+    lazy var friendsTrackingService: FriendsTrackingService = FriendsTrackingService()
+
+    lazy var travelStatsService: TravelStatsService = TravelStatsService(
+        userFlightRepository: userFlightRepository,
+        flightRepository: flightRepository
+    )
+
     // MARK: - Use Cases
 
     func makeTrackFlightUseCase() -> TrackFlightUseCase {
@@ -96,5 +107,13 @@ final class DependencyContainer {
             airportUseCase: makeGetAirportInfoUseCase(),
             flightRepository: flightRepository
         )
+    }
+
+    func makeARSkyViewModel() -> ARSkyViewModel {
+        ARSkyViewModel(flightRepository: flightRepository)
+    }
+
+    func makeFlight3DViewModel() -> Flight3DViewModel {
+        Flight3DViewModel()
     }
 }
