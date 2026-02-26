@@ -63,6 +63,10 @@ final class DependencyContainer {
         flightRepository: flightRepository
     )
 
+    // MARK: - Services (Phase 4)
+
+    lazy var tipJarService: TipJarService = TipJarService()
+
     // MARK: - Use Cases
 
     func makeTrackFlightUseCase() -> TrackFlightUseCase {

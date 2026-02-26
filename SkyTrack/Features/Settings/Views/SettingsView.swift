@@ -5,10 +5,32 @@ struct SettingsView: View {
     @AppStorage("distance_unit") private var distanceUnit = "km"
     @AppStorage("temperature_unit") private var temperatureUnit = "celsius"
     @AppStorage("map_style") private var mapStyle = "standard"
+    @State private var showTipJar = false
 
     var body: some View {
         NavigationStack {
             List {
+                // Support
+                Section {
+                    Button {
+                        showTipJar = true
+                    } label: {
+                        HStack {
+                            Label("Tip Jar", systemImage: "heart.fill")
+                                .foregroundStyle(Color(hex: "FF6B6B"))
+                            Spacer()
+                            Text("Support the dev")
+                                .font(.caption)
+                                .foregroundStyle(AppColors.textTertiary)
+                            Image(systemName: AppIcons.chevronRight)
+                                .font(.caption)
+                                .foregroundStyle(AppColors.textTertiary)
+                        }
+                    }
+                } footer: {
+                    Text("SkyTrack is 100% free. All features included, no ads, no subscriptions.")
+                }
+
                 // Notifications
                 Section {
                     Toggle(isOn: $notificationsEnabled) {
@@ -100,6 +122,9 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .sheet(isPresented: $showTipJar) {
+                TipJarView(tipJarService: TipJarService())
+            }
         }
     }
 }

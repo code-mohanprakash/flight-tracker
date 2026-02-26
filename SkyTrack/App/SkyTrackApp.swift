@@ -9,6 +9,7 @@ struct SkyTrackApp: App {
             ContentView()
                 .environment(container)
                 .preferredColorScheme(.dark)
+                .withOnboardingGate()
         }
     }
 }
