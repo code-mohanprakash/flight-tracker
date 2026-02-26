@@ -1,49 +1,27 @@
 import Foundation
 import os
 
+/// Airport repository powered by the bundled local database.
+/// No API calls needed — instant lookups with zero rate limits.
 final class AirportRepository: AirportRepositoryProtocol, @unchecked Sendable {
-    private let apiClient: APIClientProtocol
-    private let cache: AirportCache
+    private let localDB: LocalAirportDatabase
 
     private static let logger = Logger(subsystem: "com.skytrack.app", category: "airport-repo")
 
-    init(apiClient: APIClientProtocol, cache: AirportCache) {
-        self.apiClient = apiClient
-        self.cache = cache
+    init(localDB: LocalAirportDatabase = .shared) {
+        self.localDB = localDB
     }
 
     func getAirport(code: String) async throws -> Airport? {
         let cleanCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-
-        if let cached = cache.getAirport(code: cleanCode) {
-            Self.logger.info("Cache hit for airport \(cleanCode)")
-            return cached
-        }
-
-        let endpoint = AviationStackEndpoints.airports(iataCode: cleanCode)
-        let response: AviationStackResponse<AviationStackAirport> = try await apiClient.request(endpoint)
-        let airports = APIModelMapper.mapAirports(response.data)
-
-        for airport in airports {
-            cache.store(airport: airport)
-        }
-
-        return airports.first
+        Self.logger.info("Looking up airport \(cleanCode) from local database")
+        return localDB.getAirport(code: cleanCode)
     }
 
     func searchAirports(query: String) async throws -> [Airport] {
         let cleanQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard cleanQuery.count >= 2 else { return [] }
-
-        let endpoint = AviationStackEndpoints.airports(search: cleanQuery)
-        let response: AviationStackResponse<AviationStackAirport> = try await apiClient.request(endpoint)
-        let airports = APIModelMapper.mapAirports(response.data)
-
-        for airport in airports {
-            cache.store(airport: airport)
-        }
-
-        return airports
+        return localDB.searchAirports(query: cleanQuery)
     }
 }
 

@@ -71,7 +71,7 @@ enum AppStoreMetadata {
     Every feature is free. If you love SkyTrack, you can leave an optional tip \
     to support development.
 
-    Data powered by OpenSky Network and AviationStack.
+    Data powered by ADSB.lol, ADSB.One, and OpenSky Network — all free and open.
     """
 
     // MARK: - Keywords (100 char limit)

@@ -2,31 +2,34 @@ import SwiftUI
 
 @Observable
 final class DependencyContainer {
-    // MARK: - Infrastructure
+    // MARK: - Infrastructure (100% Free — No API Keys Required)
 
-    lazy var apiClient: APIClientProtocol = APIClient(
-        session: .shared,
-        configuration: .init(
-            baseURL: URL(string: "https://api.aviationstack.com/v1")!,
-            apiKey: Configuration.aviationStackAPIKey
-        )
+    lazy var adsbLolClient: ADSBClientProtocol = ADSBLolClient(session: .shared)
+    lazy var adsbOneClient: ADSBClientProtocol = ADSBOneClient(session: .shared)
+    lazy var openSkyClient: OpenSkyClientProtocol = OpenSkyClient(session: .shared)
+
+    /// Multi-source ADSB client: ADSB.lol (primary) → ADSB.One (fallback) → OpenSky (last resort)
+    lazy var adsbClient: ADSBClientProtocol = MultiSourceADSBClient(
+        primary: adsbLolClient,
+        fallback: adsbOneClient,
+        openSky: openSkyClient
     )
 
-    lazy var openSkyClient: OpenSkyClientProtocol = OpenSkyClient(session: .shared)
     lazy var flightCache: FlightCache = FlightCache()
-    lazy var airportCache: AirportCache = AirportCache()
+    lazy var airportDB: LocalAirportDatabase = .shared
+    lazy var airlineDB: LocalAirlineDatabase = .shared
 
     // MARK: - Repositories
 
     lazy var flightRepository: FlightRepositoryProtocol = FlightRepository(
-        apiClient: apiClient,
-        openSkyClient: openSkyClient,
-        cache: flightCache
+        adsbClient: adsbClient,
+        cache: flightCache,
+        airportDB: airportDB,
+        airlineDB: airlineDB
     )
 
     lazy var airportRepository: AirportRepositoryProtocol = AirportRepository(
-        apiClient: apiClient,
-        cache: airportCache
+        localDB: airportDB
     )
 
     lazy var userFlightRepository: UserFlightRepositoryProtocol = UserFlightRepository()

@@ -89,17 +89,25 @@ struct SettingsView: View {
 
                 // Data
                 Section {
-                    Link(destination: URL(string: "https://opensky-network.org")!) {
+                    Link(destination: URL(string: "https://adsb.lol")!) {
                         HStack {
-                            Text("Flight Data: OpenSky Network")
+                            Text("Primary: ADSB.lol (Open Source)")
                             Spacer()
                             Image(systemName: "arrow.up.right")
                                 .font(.system(size: 12))
                         }
                     }
-                    Link(destination: URL(string: "https://aviationstack.com")!) {
+                    Link(destination: URL(string: "https://adsb.one")!) {
                         HStack {
-                            Text("API: AviationStack")
+                            Text("Fallback: ADSB.One")
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .font(.system(size: 12))
+                        }
+                    }
+                    Link(destination: URL(string: "https://opensky-network.org")!) {
+                        HStack {
+                            Text("Backup: OpenSky Network")
                             Spacer()
                             Image(systemName: "arrow.up.right")
                                 .font(.system(size: 12))
@@ -107,6 +115,8 @@ struct SettingsView: View {
                     }
                 } header: {
                     Text("Data Sources")
+                } footer: {
+                    Text("All data sources are free and open. No API keys required.")
                 }
 
                 // Legal
