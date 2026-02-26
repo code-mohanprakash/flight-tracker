@@ -1,0 +1,65 @@
+{
+  "pagination": {
+    "limit": 100,
+    "offset": 0,
+    "count": 1,
+    "total": 1
+  },
+  "data": [
+    {
+      "flight_date": "2026-02-26",
+      "flight_status": "active",
+      "departure": {
+        "airport": "San Francisco International",
+        "timezone": "America/Los_Angeles",
+        "iata": "SFO",
+        "icao": "KSFO",
+        "terminal": "3",
+        "gate": "G92",
+        "delay": 15,
+        "scheduled": "2026-02-26T08:00:00+00:00",
+        "estimated": "2026-02-26T08:15:00+00:00",
+        "actual": "2026-02-26T08:15:00+00:00"
+      },
+      "arrival": {
+        "airport": "John F Kennedy International",
+        "timezone": "America/New_York",
+        "iata": "JFK",
+        "icao": "KJFK",
+        "terminal": "7",
+        "gate": "B22",
+        "baggage": "4",
+        "delay": 10,
+        "scheduled": "2026-02-26T16:30:00+00:00",
+        "estimated": "2026-02-26T16:40:00+00:00",
+        "actual": null
+      },
+      "airline": {
+        "name": "United Airlines",
+        "iata": "UA",
+        "icao": "UAL"
+      },
+      "flight": {
+        "number": "123",
+        "iata": "UA123",
+        "icao": "UAL123"
+      },
+      "aircraft": {
+        "registration": "N12345",
+        "iata": "B738",
+        "icao": "B738",
+        "icao24": "A12345"
+      },
+      "live": {
+        "updated": "2026-02-26T12:00:00+00:00",
+        "latitude": 39.5,
+        "longitude": -98.35,
+        "altitude": 10972.8,
+        "direction": 85.0,
+        "speed_horizontal": 870.0,
+        "speed_vertical": 0.0,
+        "is_ground": false
+      }
+    }
+  ]
+}
