@@ -31,6 +31,27 @@ final class DependencyContainer {
 
     lazy var userFlightRepository: UserFlightRepositoryProtocol = UserFlightRepository()
 
+    // MARK: - Services (Phase 2)
+
+    lazy var notificationService: NotificationService = NotificationService()
+
+    lazy var delayPredictionService: DelayPredictionService = DelayPredictionService(
+        flightRepository: flightRepository,
+        airportRepository: airportRepository
+    )
+
+    lazy var flightTrackingService: FlightTrackingService = FlightTrackingService(
+        flightRepository: flightRepository,
+        delayPredictionService: delayPredictionService,
+        notificationService: notificationService
+    )
+
+    lazy var importService: ImportService = ImportService()
+
+    #if canImport(ActivityKit)
+    lazy var liveActivityManager: LiveActivityManager = LiveActivityManager()
+    #endif
+
     // MARK: - Use Cases
 
     func makeTrackFlightUseCase() -> TrackFlightUseCase {

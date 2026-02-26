@@ -15,6 +15,12 @@ struct SettingsView: View {
                         Label("Push Notifications", systemImage: AppIcons.notification)
                     }
                     .tint(AppColors.primary)
+
+                    NavigationLink {
+                        NotificationSettingsView()
+                    } label: {
+                        Label("Notification Preferences", systemImage: "bell.badge")
+                    }
                 } header: {
                     Text("Notifications")
                 } footer: {
